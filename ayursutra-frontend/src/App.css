@@ -1,38 +1,47 @@
-.App {
-  text-align: center;
+:root{
+  --brand-green: #1b6b3a;
+  --brand-olive: #7da57d;
+  --muted: #6c757d;
+  --hero-bg: linear-gradient(180deg, rgba(27,107,58,0.9), rgba(34,139,86,0.85));
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background: #f8faf7;
+  color: #222;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Hero */
+.hero-section{
+  background-image: url('https://source.unsplash.com/1600x800/?ayurveda,herbs,spa');
+  background-size: cover;
+  background-position: center;
+  padding: 80px 0;
+  position: relative;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.hero-section::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background: var(--hero-bg);
+  opacity:0.9;
 }
+.hero-section .container { position: relative; z-index: 2; }
+.hero-section h1, .hero-section p { color: #fff; }
 
-.App-link {
-  color: #61dafb;
-}
+/* Cards */
+.card { border-radius: 12px; }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Small tweaks */
+.navbar-brand { color: #fff !important; }
+.display-6 { font-weight: 600; }
+.stat-card { border-radius: 10px; }
+
+/* Make image cards fit nicely */
+.card-img-top { height: 160px; object-fit: cover; }
+
+/* Responsive spacing */
+@media (max-width: 768px) {
+  .hero-section { padding: 40px 0; }
+  .card-img-top { height: 200px; }
 }
