@@ -43,7 +43,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Ayursutra MVP - Appointment Scheduler</h1>
-        <p>Ancient Wisdom • Modern Care</p>
+        <p>Ancient Wisdom • Modern Care</p> 
+         <a href="/doctor" style={{ color: 'white', marginTop: '1rem' }}>View Doctor's Portal</a>
       </header>
       <main>
         <section className="form-section">

@@ -14,7 +14,7 @@ const pool = new Pool({
   user: 'your_db_user',
   host: 'localhost',
   database: 'ayursutra_db',
-  password: 'your_db_password',
+  password: '1234',
   port: 5432,
   // IMPORTANT: Disable SSL verification for self-signed certificates
   ssl: {
