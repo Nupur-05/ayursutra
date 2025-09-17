@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import './App.css'; // This will be your main CSS file
+import './App.css'; 
+import DoctorPortal from './DoctorPortal';
 
 function App() {
   const [appointments, setAppointments] = useState([]);
   const [name, setName] = useState('');
   const [time, setTime] = useState('');
+  const [isDoctorPortal, setIsDoctorPortal] = useState(false);
 
   // Fetch appointments from the backend
   const fetchAppointments = async () => {
@@ -43,38 +45,49 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Ayursutra MVP - Appointment Scheduler</h1>
-        <p>Ancient Wisdom • Modern Care</p> 
-         <a href="/doctor" style={{ color: 'white', marginTop: '1rem' }}>View Doctor's Portal</a>
+        <p>Ancient Wisdom • Modern Care</p>
+        <button 
+          onClick={() => setIsDoctorPortal(!isDoctorPortal)} 
+          style={{ color: 'white', marginTop: '1rem', background: 'none', border: '1px solid white', padding: '10px 20px', cursor: 'pointer' }}
+        >
+          {isDoctorPortal ? "View Patient Portal" : "View Doctor's Portal"}
+        </button>
       </header>
       <main>
-        <section className="form-section">
-          <h2>Book a New Appointment</h2>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>
-                Patient Name:
-                <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-              </label>
-            </div>
-            <div>
-              <label>
-                Appointment Time:
-                <input type="datetime-local" value={time} onChange={(e) => setTime(e.target.value)} required />
-              </label>
-            </div>
-            <button type="submit">Schedule Appointment</button>
-          </form>
-        </section>
-        <section className="list-section">
-          <h2>Upcoming Appointments</h2>
-          <ul>
-            {appointments.map((appt) => (
-              <li key={appt.id}>
-                <strong>{appt.patient_name}</strong> at {new Date(appt.appointment_time).toLocaleString()}
-              </li>
-            ))}
-          </ul>
-        </section>
+        {isDoctorPortal ? (
+          <DoctorPortal />
+        ) : (
+          <>
+            <section className="form-section">
+              <h2>Book a New Appointment</h2>
+              <form onSubmit={handleSubmit}>
+                <div>
+                  <label>
+                    Patient Name:
+                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    Appointment Time:
+                    <input type="datetime-local" value={time} onChange={(e) => setTime(e.target.value)} required />
+                  </label>
+                </div>
+                <button type="submit">Schedule Appointment</button>
+              </form>
+            </section>
+            <section className="list-section">
+              <h2>Upcoming Appointments</h2>
+              <ul>
+                {appointments.map((appt) => (
+                  <li key={appt.id}>
+                    <strong>{appt.patient_name}</strong> at {new Date(appt.appointment_time).toLocaleString()}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </>
+        )}
       </main>
     </div>
   );
