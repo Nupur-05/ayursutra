@@ -10,11 +10,12 @@ app.use(cors());
 app.use(express.json());
 
 // Database connection
+// Database connection
 const pool = new Pool({
-  user: 'your_db_user',
+  user: 'postgres', // Replace with 'postgres' if you used the default
   host: 'localhost',
   database: 'ayursutra_db',
-  password: '1234',
+  password: '1234', // Replace with your password
   port: 5432,
   // IMPORTANT: Disable SSL verification for self-signed certificates
   ssl: {
