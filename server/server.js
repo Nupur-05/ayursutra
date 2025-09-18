@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
+// --- ADDITION 1: Import nodemailer and dotenv ---
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const app = express();
 const port = 5000;
@@ -19,6 +22,15 @@ const pool = new Pool({
   port: 5432,
 });
 console.log('Database connection pool created.');
+
+// --- ADDITION 2: Nodemailer Transporter Setup ---
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER, // From .env file
+    pass: process.env.EMAIL_PASS  // From .env file
+  }
+});
 
 // A simple endpoint to test the server
 app.get('/', (req, res) => {
@@ -49,6 +61,37 @@ app.post('/api/appointments', async (req, res) => {
     );
 
     console.log('Database INSERT successful. Rows:', newAppointment.rows);
+
+    // --- ADDITION 3: Send Email Notification ---
+    console.log('Preparing to send email notification...');
+    const formattedTime = new Date(appointmentTime).toLocaleString('en-US', {
+      dateStyle: 'full',
+      timeStyle: 'short',
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: process.env.DOCTOR_EMAIL,
+      subject: 'New Appointment Booked on Ayursutra',
+      html: `
+        <h1>New Appointment Notification</h1>
+        <p>A new appointment has been scheduled.</p>
+        <ul>
+          <li><strong>Patient Name:</strong> ${patientName}</li>
+          <li><strong>Appointment Time:</strong> ${formattedTime}</li>
+        </ul>
+      `
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error);
+      } else {
+        console.log('Email sent successfully: ' + info.response);
+      }
+    });
+    // --- End of Addition 3 ---
+
     res.json(newAppointment.rows[0]);
   } catch (err) {
     console.error('!!!!!!!! DATABASE ERROR !!!!!!!!');
